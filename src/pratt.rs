@@ -178,7 +178,10 @@ impl<E, AtomParser, Expr, OpParser, Op> Pratt<E, AtomParser, Expr, OpParser, Op>
                     }
                     (op, prec)
                 }
-                Err(_) => return Ok(left),
+                Err(_) => {
+                    inp.rewind(pre_op);
+                    return Ok(left);
+                }
             };
 
             let right = self.pratt_parse::<M, _>(inp, Some(prec.strength_right()))?;
