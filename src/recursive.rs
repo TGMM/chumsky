@@ -146,6 +146,11 @@ impl<'a, 'b, I: Input<'a>, O, E: ParserExtra<'a, I>> Recursive<Indirect<'a, 'b, 
                 )
             });
     }
+
+    /// Returns whether the parser is defined or not
+    pub fn is_defined(&self) -> bool {
+        self.parser().inner.get().is_some()
+    }
 }
 
 impl<P: ?Sized> Recursive<P> {
