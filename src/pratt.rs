@@ -311,7 +311,7 @@ mod tests {
             Err(vec![<Rich<_> as Error<&str>>::expected_found(
                 Some(Some('0'.into())),
                 None, // TODO: Should be Some('+')?
-                (1..2).into()
+                (2..2).into()
             )]),
         );
     }

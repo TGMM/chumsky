@@ -1129,7 +1129,14 @@ impl<'a, 'parse, I: Input<'a>, E: ParserExtra<'a, I>> InputRef<'a, 'parse, I, E>
         self.errors.alt = Some(match self.errors.alt.take() {
             Some(alt) => match alt.pos.into().cmp(&at.into()) {
                 Ordering::Equal => {
-                    Located::at(alt.pos, alt.err.merge_expected_found(expected, found, span))
+                    if found.is_none() {
+                        Located::at(
+                            alt.pos,
+                            alt.err.replace_expected_found(expected, found, span),
+                        )
+                    } else {
+                        Located::at(alt.pos, alt.err.merge_expected_found(expected, found, span))
+                    }
                 }
                 Ordering::Greater => alt,
                 Ordering::Less => {
